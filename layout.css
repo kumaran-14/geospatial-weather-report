@@ -1,0 +1,13 @@
+.card {
+  min-height: 70vh;
+}
+
+#map {
+  height: 300px;  /* The height is 400 pixels */
+  width: 60%;  /* The width is the width of the web page */
+}
+
+.map-div{
+  display: flex;
+  justify-content: center
+}
