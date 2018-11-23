@@ -1,11 +1,13 @@
-// console.log('Ahoy, matey') testing!
-
+// importing npm modules
+// const nearbyCities = require("nearby-cities")
 
 // Constants
 let locateMe = document.querySelector('.locate-me')
 let mapText = document.querySelector('.map-text')
+let weatherText = document.querySelector('.weather')
+let conditon = document.querySelector('.req')
+
 let myLatLng, mapOptions, map, marker, request;
-const forecast_io_api_key = '34edaac730378588f1452d2d43dc0488'
 
 locateMe.addEventListener('click', showPosition)
 
@@ -22,7 +24,6 @@ function showPosition(e) {
     showMap(lat, lon);
     getCities(lat, lon)
   });
-
 }
 
 function showMap(lat, lon) {
@@ -41,12 +42,19 @@ function showMap(lat, lon) {
 }
 
 function getCities(lat, lon) {
-  request = {
-    location: myLatLng,
-    radius: '500000'
-  };
-  service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, callback);
+  fetch(`http://localhost:8000/nearby-cities?&lat=${lat}&lon=${lon}`)
+    .then( res => res.json())
+    .then(data => {
+      console.log(data.cities)
+      console.log(conditon)
+      conditon.innerHTML = `List of cities with population over 50 thousand and less than 50km from you which has over 50% probability of precipitaion or temperature change over 5 degrees`
+      weatherText.innerHTML = `<ul class="list-group list-group-flush">`
+      data.cities.forEach( city => {
+        weatherText.innerHTML += `<li class="list-group-item">Name : <strong>${city.name}</strong> , Population : <strong>${city.population}</strong><br>  Latitude : <strong>${city.lat}</strong> , Longitude : <strong>${city.lon}</strong><br>  </li>`
+      })
+      weatherText.innerHTML += `</ul>`
+
+    } )
 }
 
 function callback(results, status) {
@@ -58,7 +66,6 @@ function callback(results, status) {
     }
   }
 }
-
 
 function createMarker(place) {
   var placeLoc = place.geometry.location;
@@ -74,19 +81,3 @@ function createMarker(place) {
 }
 
 
-const req = new Request('http://api.v3.factual.com/t/places?geo={"$within":{"$rect":[[34.06110,-118.42283],[34.05771,-118.41399]]}}')
-fetch(req)
-  .then(response => {
-    if (response.status === 200) {
-      return response.json();
-    } else {
-      console.log(response)
-      throw new Error('Something went wrong on api server!');
-    }
-  })
-  .then(response => {
-    console.debug(response);
-    // ...
-  }).catch(error => {
-    console.error(error);
-  });
