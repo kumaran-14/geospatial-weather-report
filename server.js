@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const nearbyCities = require("nearby-cities")
+const PORT = process.env.PORT || 5000
 var axios = require('axios');
 
 const app = express()
@@ -34,8 +35,12 @@ app.get('/nearby-cities', async function(req,res) {
 	})
 })
 
-app.listen(8000,() => {
-	console.log('Server started on port 8000...')
+app.get('/hello', (req,res) => { res.send({
+	hello: "Hiya! We are from Heroku"
+})})
+
+app.listen(PORT,() => {
+	console.log('Server started !!')
 });
 
 //distance cal func

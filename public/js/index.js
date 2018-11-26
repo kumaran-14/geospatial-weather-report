@@ -42,11 +42,10 @@ function showMap(lat, lon) {
 }
 
 function getCities(lat, lon) {
-  fetch(`http://localhost:8000/nearby-cities?&lat=${lat}&lon=${lon}`)
+  fetch(`https://geospatial-weather-report.herokuapp.com/nearby-cities?&lat=${lat}&lon=${lon}`)
     .then( res => res.json())
     .then(data => {
-      console.log(data.cities)
-      console.log(conditon)
+      console.log(data)
       conditon.innerHTML = `List of cities with population over 50 thousand and less than 50km from you which has over 50% probability of precipitaion or temperature change over 5 degrees`
       weatherText.innerHTML = `<ul class="list-group list-group-flush">`
       data.cities.forEach( city => {
