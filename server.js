@@ -5,6 +5,12 @@ const bodyParser = require("body-parser");
 const nearbyCities = require("nearby-cities");
 const PORT = process.env.PORT || 5000;
 const axios = require("axios");
+const weatherConfig = {
+  maxCityPopulation: 50000,    // fifty thousand
+  maxRadialDist: 100,        // 100km
+  precipProbability: 0.1,   // 10% rain probability 
+  temperatureChange: 1      // 1 degree temperature change
+}
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,8 +29,8 @@ app.get("/nearby-cities", async function(req, res) {
   const query = { latitude: req.query.lat, longitude: req.query.lon };
   const cities = nearbyCities(query).filter(
     city =>
-      city.population > 50000 &&
-      distance(city.lat, city.lon, query.latitude, query.longitude) < 100
+      city.population > weatherConfig.maxCityPopulation &&
+      distance(city.lat, city.lon, query.latitude, query.longitude) < weatherConfig.maxRadialDist
   );
 
   for (let i = 0; i < cities.length; ++i) {
@@ -48,18 +54,11 @@ app.get("/nearby-cities", async function(req, res) {
   });
 });
 
-app.get("/hello", (req, res) => {
-  res.send({
-    hello: "Hiya! We are from Heroku"
-  });
-});
-
 app.listen(PORT, () => {
   console.log(`Server started on port: ${process.env.PORT}!!`);
 });
 
-//distance cal func
-
+//distance calculation func
 function distance(lat1, lon1, lat2, lon2) {
   var R = 6371; // km (change this constant to get miles)
   var dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -75,10 +74,11 @@ function distance(lat1, lon1, lat2, lon2) {
   return Math.round(d);
 }
 
+// cities which have precipation probability higher than threshold
 function expectRain(arr) {
   let rain = false;
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i].precipProbability > 0.1) {
+    if (arr[i].precipProbability > weatherConfig.precipProbability) {
       rain = true;
       break;
     }
@@ -86,13 +86,14 @@ function expectRain(arr) {
   return rain;
 }
 
+// cities which have temperature change higher than threshold
 function tempChange(arr) {
   let tempChange = false;
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr.length; j++) {
       if (
-        Math.abs(arr[i].temperatureHigh - arr[j].temperatureHigh) > 1 ||
-        Math.abs(arr[i].temperatureLow - arr[j].temperatureLow) > 1
+        Math.abs(arr[i].temperatureHigh - arr[j].temperatureHigh) > weatherConfig.temperatureChange ||
+        Math.abs(arr[i].temperatureLow - arr[j].temperatureLow) > weatherConfig.temperatureChange
       ) {
         tempChange = true;
         break;

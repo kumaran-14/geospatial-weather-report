@@ -43,6 +43,7 @@ function getCities(lat, lon) {
     .then( res => res.json())
     .then(data => {
       console.log(data)
+      weatherText.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.2)'
       weatherText.innerHTML = `<h2>List of cities.</h2> <p>List of cities with population over 50 thousand and less than 50km from you which has over 50% probability of precipitaion or temperature change over 5 degrees.</p>`
       weatherText.innerHTML += `<ul class="list">`
       data.cities.forEach( city => {
@@ -51,7 +52,7 @@ function getCities(lat, lon) {
       weatherText.innerHTML += `</ul>`
     } )
     .catch(error => {
-      weatherText.innerHTML = `Try again later.`
+      weatherText.innerHTML = `Try again later for weather data.`
     })
 }
 
