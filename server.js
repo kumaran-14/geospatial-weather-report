@@ -4,7 +4,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const nearbyCities = require("nearby-cities");
 const PORT = process.env.PORT || 5000;
-var axios = require("axios");
+const axios = require("axios");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -78,7 +78,7 @@ function distance(lat1, lon1, lat2, lon2) {
 function expectRain(arr) {
   let rain = false;
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i].precipProbability > 0.5) {
+    if (arr[i].precipProbability > 0.1) {
       rain = true;
       break;
     }
@@ -91,8 +91,8 @@ function tempChange(arr) {
   for (let i = 0; i < arr.length; i++) {
     for (let j = 0; j < arr.length; j++) {
       if (
-        Math.abs(arr[i].temperatureHigh - arr[j].temperatureHigh) > 5 ||
-        Math.abs(arr[i].temperatureLow - arr[j].temperatureLow) > 5
+        Math.abs(arr[i].temperatureHigh - arr[j].temperatureHigh) > 1 ||
+        Math.abs(arr[i].temperatureLow - arr[j].temperatureLow) > 1
       ) {
         tempChange = true;
         break;
