@@ -1,10 +1,9 @@
 {
   "name": "geospatial-weather-report",
   "version": "1.0.0",
-  "description": "A web application to get weather report of citiies nearby",
+  "description": "A web application to get weather report of nearby cities.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "author": "kumaran-14",
@@ -12,6 +11,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
     "express": "^4.16.3",
     "mongodb": "^3.0.10",
     "nearby-cities": "^1.1.0",

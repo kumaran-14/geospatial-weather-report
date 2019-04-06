@@ -1,12 +1,10 @@
-// importing npm modules
-// const nearbyCities = require("nearby-cities")
-
 // Constants
-let locateMe = document.querySelector('.locate-me')
-let mapText = document.querySelector('.map-text')
-let weatherText = document.querySelector('.weather')
-let conditon = document.querySelector('.req')
+const locateMe = document.querySelector('.locate-me')
+const mapText = document.querySelector('.map-text')
+const weatherText = document.querySelector('.list-container')
+const conditon = document.querySelector('.req')
 
+// Map variables
 let myLatLng, mapOptions, map, marker, request;
 
 locateMe.addEventListener('click', showPosition)
@@ -20,7 +18,6 @@ function showPosition(e) {
     <p class="card-text">Latitude: ${lat}</p>
     <p class="card-text">Longitude: ${lon}</p>
     </br>`
-    console.debug(position)
     showMap(lat, lon);
     getCities(lat, lon)
   });
@@ -29,7 +26,7 @@ function showPosition(e) {
 function showMap(lat, lon) {
   myLatLng = new google.maps.LatLng(lat, lon);
   mapOptions = {
-    zoom: 8,
+    zoom: 14,
     center: myLatLng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
@@ -46,14 +43,16 @@ function getCities(lat, lon) {
     .then( res => res.json())
     .then(data => {
       console.log(data)
-      conditon.innerHTML = `List of cities with population over 50 thousand and less than 50km from you which has over 50% probability of precipitaion or temperature change over 5 degrees`
-      weatherText.innerHTML = `<ul class="list-group list-group-flush">`
+      weatherText.innerHTML = `<h2>List of cities.</h2> <p>List of cities with population over 50 thousand and less than 50km from you which has over 50% probability of precipitaion or temperature change over 5 degrees.</p>`
+      weatherText.innerHTML += `<ul class="list">`
       data.cities.forEach( city => {
-        weatherText.innerHTML += `<li class="list-group-item">Name : <strong>${city.name}</strong> , Population : <strong>${city.population}</strong><br>  Latitude : <strong>${city.lat}</strong> , Longitude : <strong>${city.lon}</strong><br>  </li>`
+        weatherText.innerHTML += generateText(city.name, city.population, city.lat, city.lon)
       })
       weatherText.innerHTML += `</ul>`
-
     } )
+    .catch(error => {
+      weatherText.innerHTML = `Try again later.`
+    })
 }
 
 function callback(results, status) {
@@ -80,3 +79,6 @@ function createMarker(place) {
 }
 
 
+function generateText(cityName, population, lat, lon) {
+  return `<li><span class="circle"></span> Name : <strong>${cityName}</strong> , Population : <strong>${population}</strong><br>  Latitude : <strong>${lat}</strong> , Longitude : <strong>${lon}</strong><br>  </li>`
+}

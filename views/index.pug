@@ -11,16 +11,17 @@ html(lang='en')
     .page-center
       .card.text-center
         .card-header
-          h3 GeoLocation API
+          h3 Geospatial Weather Report
         .card-body
-          h4.card-title Know Your position.
+          h4.card-title Know your location.
           button.btn.btn-primary.locate-me Find Me
           .card-text.map-text
           .map-div
             #map
           br
-          h5.card-title.req
-          .card-text.map-text.weather
-        .card-footer.text-muted
+          .container-fluid
+            .row
+              .col-md-6.offset-md-4
+                .list-container
     script(src='/js/index.js')
     script(async='', defer='', src='https://maps.googleapis.com/maps/api/js?key=AIzaSyACaE_F3pumsu_NWp29CuuCkBI460CRBk0&libraries=places')

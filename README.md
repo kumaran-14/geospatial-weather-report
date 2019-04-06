@@ -9,11 +9,11 @@ Geospatial Weather Report
 
 <p align="center">
 A simple app that gives you the weather forecast of major cities within a specified distance from your location
-It shows your location on the map using google maps api, shows weather forecast of cities near you using the darksky weather api.
+It shows your location on the map using Google Maps API, shows weather forecast of cities near you using the Dark Sky Weather API.
 </p>
 
 ## License
-This project is under MIT License [https://opensource.org/licenses/MIT]
+This project is under MIT License
 
 ## Author
 <a href="https://github.com/kumaran-14" title="kumaran-14">Kumaran</a> | 2019
