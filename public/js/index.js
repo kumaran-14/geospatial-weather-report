@@ -44,7 +44,8 @@ function getCities(lat, lon) {
     .then(data => {
       console.log(data)
       weatherText.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.2)'
-      weatherText.innerHTML = `<h2>List of cities.</h2> <p>List of cities with population over 50 thousand and less than 50km from you which has over 50% probability of precipitaion or temperature change over 5 degrees.</p>`
+      weatherText.innerHTML = `<h2>List of cities.</h2> <p>List of cities with population over 50 thousand and less than 100km from you and has over 50% probability of precipitaion or temperature change over 5 degrees.</p>`
+      if (data.cities.length === 0 ) weatherText.innerHTML += '<p><i>Sorry, no such cities present in current weather conditions. Please try again later.</i></p>'
       weatherText.innerHTML += `<ul class="list">`
       data.cities.forEach( city => {
         weatherText.innerHTML += generateText(city.name, city.population, city.lat, city.lon)
@@ -81,5 +82,5 @@ function createMarker(place) {
 
 
 function generateText(cityName, population, lat, lon) {
-  return `<li><span class="circle"></span> Name : <strong>${cityName}</strong> , Population : <strong>${population}</strong><br>  Latitude : <strong>${lat}</strong> , Longitude : <strong>${lon}</strong><br>  </li>`
+  return `<li class="list-items"><span class="circle"></span> Name : <strong>${cityName}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Population : <strong>${population}</strong><br>  Latitude : <strong>${lat}</strong>&nbsp;&nbsp;&nbsp;&nbsp;Longitude : <strong>${lon}</strong><br>  </li> </br>`
 }

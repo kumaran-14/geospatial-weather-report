@@ -8,8 +8,8 @@ const axios = require("axios");
 const weatherConfig = {
   maxCityPopulation: 50000,    // fifty thousand
   maxRadialDist: 100,        // 100km
-  precipProbability: 0.1,   // 10% rain probability 
-  temperatureChange: 1      // 1 degree temperature change
+  precipProbability: 0.5,   // 10% rain probability 
+  temperatureChange: 5      // 1 degree temperature change
 }
 
 const app = express();
